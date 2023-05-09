@@ -1,4 +1,4 @@
-package com.pz.motomoto.Secutity;
+package com.pz.motomoto.Security;
 
 import java.security.Key;
 import java.util.Date;

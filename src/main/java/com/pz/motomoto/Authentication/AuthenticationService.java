@@ -1,4 +1,4 @@
-package com.pz.motomoto.Authenrication;
+package com.pz.motomoto.Authentication;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import com.pz.motomoto.Klasy.User.Role;
 import com.pz.motomoto.Klasy.User.User;
 import com.pz.motomoto.Klasy.User.UserRepo;
-import com.pz.motomoto.Secutity.JwtService;
+import com.pz.motomoto.Security.JwtService;
 
 import lombok.RequiredArgsConstructor;
 
