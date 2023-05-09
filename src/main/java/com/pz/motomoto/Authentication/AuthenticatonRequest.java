@@ -1,4 +1,4 @@
-package com.pz.motomoto.Authenrication;
+package com.pz.motomoto.Authentication;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

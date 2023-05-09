@@ -1,4 +1,4 @@
-package com.pz.motomoto.Authenrication;
+package com.pz.motomoto.Authentication;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
