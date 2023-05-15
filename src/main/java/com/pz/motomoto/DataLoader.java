@@ -1,23 +1,14 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.pz.motomoto;
 
 import com.pz.motomoto.Klasy.Ogloszenie.Ogloszenie;
 import com.pz.motomoto.Klasy.Ogloszenie.OgloszenieRepo;
 import com.pz.motomoto.Klasy.RegularUser.RegularUser;
 import static com.pz.motomoto.Klasy.User.Role.USER;
-import com.pz.motomoto.Klasy.User.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.stereotype.Component;
 import org.springframework.boot.ApplicationRunner;
 import com.pz.motomoto.Klasy.RegularUser.RegularUserRepo;
-import com.pz.motomoto.Klasy.RegularUser.RegularUserRepo;
-import java.util.Set;
-import org.hibernate.Hibernate;
-
 /**
  *
  * @author Majkel
