@@ -1,8 +1,10 @@
 package com.pz.motomoto.Requests;
 
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 @Data
+@RequiredArgsConstructor
 public class EditPasswordRequest {
     private String email;
     private String oldPassword;
@@ -10,7 +12,7 @@ public class EditPasswordRequest {
     private String confirmNewPassword;
 
     public boolean passwordMatch() {
-        if (newPassword.equals(confirmNewPassword)) {
+        if (newPassword.matches(confirmNewPassword)) {
             return true;
         }
         return false;
