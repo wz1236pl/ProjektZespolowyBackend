@@ -1,5 +1,6 @@
 package com.pz.motomoto.Authentication;
 
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,7 +16,7 @@ public class AuthController {
     
     private final AuthenticationService service;
 
-    @PostMapping("/register")
+    @PostMapping(value = "/register")
     public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request){
         return ResponseEntity.ok(service.register(request));
     }

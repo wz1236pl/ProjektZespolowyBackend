@@ -1,7 +1,9 @@
 package com.pz.motomoto.Klasy.Ogloszenie;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.pz.motomoto.Klasy.RegularUser.RegularUser;
+import com.pz.motomoto.Klasy.User.User;
+
+import java.time.OffsetDateTime;
 import java.util.Date;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -28,7 +30,7 @@ public class Ogloszenie {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
-    private Date data_dodania;
+    private OffsetDateTime dataDodania;
     private boolean aktywne;
     private String nazwa;
     private String vin;
@@ -42,15 +44,16 @@ public class Ogloszenie {
     private Integer moc;
     private Integer pojemnosc;
     private double cena;
+    private String opis;
     @ManyToOne(fetch = FetchType.EAGER)
     @JsonIgnoreProperties("ogloszenia") 
-    private RegularUser uzytkownik;
+    private User uzytkownik;
 
     @Override
 public String toString() {
     return "Ogloszenie{" +
             "id=" + id +
-            ", data_dodania=" + data_dodania +
+            ", data_dodania=" + dataDodania +
             ", aktywne=" + aktywne +
             ", nazwa='" + nazwa + '\'' +
             ", vin='" + vin + '\'' +
