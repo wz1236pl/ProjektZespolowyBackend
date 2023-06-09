@@ -1,19 +1,26 @@
 package com.pz.motomoto.Klasy.User;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.pz.motomoto.Klasy.Ogloszenie.Ogloszenie;
 
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -37,6 +44,11 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
     private String phone;
+    private boolean enabled;
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<Ogloszenie> ulubione = new ArrayList<>();;
+    @OneToMany(mappedBy="uzytkownik", fetch = FetchType.EAGER)
+    private Set<Ogloszenie> ogloszenia = new HashSet<>();;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -60,7 +72,7 @@ public class User implements UserDetails {
     }
     @Override
     public boolean isEnabled() {
-        return true;
+        return enabled;
     }
 
 }

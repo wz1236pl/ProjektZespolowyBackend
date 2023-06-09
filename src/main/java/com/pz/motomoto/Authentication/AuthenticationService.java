@@ -1,10 +1,13 @@
 package com.pz.motomoto.Authentication;
 
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.pz.motomoto.Klasy.User.Role;
 import com.pz.motomoto.Klasy.User.User;
@@ -22,24 +25,34 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     
+    @CrossOrigin
     public AuthenticationResponse register(RegisterRequest request) {
+        if(userRepo.findByEmail(request.getEmail()).isPresent() || userRepo.findByNick(request.getNick()).isPresent()){
+             return AuthenticationResponse.builder().token(null).build();
+        }
         var user = User.builder()
-            .nick(request.getNick())
-            .email(request.getEmail())
-            .password(passwordEncoder.encode(request.getPassword()))
-            .phone(request.getPhone())
-            .role(Role.USER)
-            .build();
-        userRepo.save(user);
-        var jwtToken = jwtService.generateToken(user);
-        return AuthenticationResponse.builder().token(jwtToken).build();
+                .nick(request.getNick())
+                .email(request.getEmail())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .phone(request.getPhone())
+                .role(Role.USER)
+                .enabled(true)
+                .build();
+            userRepo.save(user);
+            var jwtToken = jwtService.generateToken(user);
+            return AuthenticationResponse.builder().token(jwtToken).build();
     }
 
+    @CrossOrigin
     public AuthenticationResponse authenticate(AuthenticatonRequest request) {
+        System.out.println(request);
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
         User user = userRepo.findByEmail(request.getEmail()).orElseThrow();
         if(user == null) {
             user = userRepo.findByNick(request.getEmail()).orElseThrow();
+        }
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())){
+            return null;
         }
         var jwtToken = jwtService.generateToken((UserDetails) user);
         return AuthenticationResponse.builder().token(jwtToken).build();

@@ -21,4 +21,8 @@ public class UserController {
     public <T> ResponseEntity editUserPassword(@RequestBody EditPasswordRequest passwordRequest) {
         return ResponseEntity.ok(userService.changePassword(passwordRequest));
     }
+    @PutMapping("/enabled")
+    public void userEnabledChange(boolean enabled ) {
+
+    }
 }
