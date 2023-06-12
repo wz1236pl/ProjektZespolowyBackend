@@ -1,8 +1,19 @@
 package com.pz.motomoto.Services;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.List;
 import java.util.Objects;
 
 import org.apache.logging.log4j.util.Strings;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDFont;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -56,6 +67,43 @@ public class UserService {
         final String authHeader = servletRequest.getHeader("Authorization");
         final String jwt = authHeader.substring(7);
         return userRepo.findByEmail(jwtService.extractUsername(jwt)).orElse(null);
+    }
+
+    public File generateUserListPdf() throws IOException{
+        // File resultFile = File.createTempFile("UserList",".pdf");
+        File resultFile = new File("UserList.pdf");
+        ByteArrayOutputStream byteArrayOutputStream = createPDF();
+        try(OutputStream outputStream = new FileOutputStream(resultFile)) {
+            byteArrayOutputStream.writeTo(outputStream);
+        }
+        return resultFile;
+    }
+
+    private ByteArrayOutputStream createPDF() throws IOException {
+        int x = 10;
+        int y = 770;
+        PDFont font = PDType1Font.COURIER;
+        PDPageContentStream contentStream;
+        ByteArrayOutputStream output =new ByteArrayOutputStream();
+        PDDocument document =new PDDocument();
+        PDPage page = new PDPage();
+        document.addPage(page);
+        contentStream = new PDPageContentStream(document, page);
+        contentStream.setFont(font, 14);
+        List<User> userList = userRepo.findAll();
+        for(User u : userList){
+            contentStream.beginText();
+            contentStream.newLineAtOffset(x, y-=20);
+            contentStream.showText(u.userToPdf());
+            contentStream.endText();
+
+        }
+
+        contentStream.close();
+
+        document.save(output);
+        document.close();
+        return output;
     }
 
 }

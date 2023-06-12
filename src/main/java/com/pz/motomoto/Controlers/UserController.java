@@ -1,5 +1,13 @@
 package com.pz.motomoto.Controlers;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -8,10 +16,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pz.motomoto.Klasy.User.User;
+import com.pz.motomoto.Klasy.User.UserRepo;
 import com.pz.motomoto.Requests.EditPasswordRequest;
 import com.pz.motomoto.Services.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 @RestController
@@ -19,6 +31,8 @@ import jakarta.servlet.http.HttpServletRequest;
 public class UserController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private UserRepo userRepo;
 
     @PutMapping("/password")
     public <T> ResponseEntity editUserPassword(@RequestBody EditPasswordRequest passwordRequest, HttpServletRequest servletRequest) {
@@ -26,9 +40,17 @@ public class UserController {
         passwordRequest.setEmail(user.getEmail());
         return ResponseEntity.ok(userService.changePassword(passwordRequest));
     }
+
     @PutMapping("/enabled")
     public void userEnabledChange(boolean enabled, HttpServletRequest servletRequest ) {
+        User user = userService.getUserFromJwt(servletRequest);
+        user.setEnabled(enabled);
+        userRepo.save(user);
+    }
 
+    @GetMapping("/pdf")
+    public File getMethodName() throws IOException {
+       return userService.generateUserListPdf();
     }
 
 }

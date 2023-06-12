@@ -75,4 +75,8 @@ public class User implements UserDetails {
         return enabled;
     }
 
+    public String userToPdf(){
+        return this.getId()+" "+this.getEmail()+" "+this.getNick()+" "+this.getPhone();
+    }
+
 }
