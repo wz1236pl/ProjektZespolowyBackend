@@ -1,10 +1,12 @@
 package com.pz.motomoto.Requests;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 @Data
 @RequiredArgsConstructor
+@AllArgsConstructor
 public class EditPasswordRequest {
     private String email;
     private String oldPassword;
