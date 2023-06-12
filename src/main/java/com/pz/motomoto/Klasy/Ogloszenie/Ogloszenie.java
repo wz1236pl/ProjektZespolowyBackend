@@ -3,7 +3,6 @@ package com.pz.motomoto.Klasy.Ogloszenie;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.pz.motomoto.Klasy.User.User;
 
-import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -31,7 +30,7 @@ public class Ogloszenie {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
     private OffsetDateTime dataDodania;
-    private LocalDate rok;
+    private String rok;
     private boolean aktywne;
     private String nazwa;
     private String vin;
