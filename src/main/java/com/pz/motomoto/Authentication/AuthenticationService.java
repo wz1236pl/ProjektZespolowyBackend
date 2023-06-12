@@ -1,12 +1,12 @@
 package com.pz.motomoto.Authentication;
 
 
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.CrossOrigin;
 
 import com.pz.motomoto.Klasy.User.Role;
 import com.pz.motomoto.Klasy.User.User;
@@ -24,7 +24,6 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     
-    @CrossOrigin
     public AuthenticationResponse register(RegisterRequest request) {
         if(userRepo.findByEmail(request.getEmail()).isPresent() || userRepo.findByNick(request.getNick()).isPresent()){
              return AuthenticationResponse.builder().token(null).build();
@@ -42,7 +41,6 @@ public class AuthenticationService {
             return AuthenticationResponse.builder().token(jwtToken).build();
     }
 
-    @CrossOrigin
     public AuthenticationResponse authenticate(AuthenticatonRequest request) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
         User user = userRepo.findByEmail(request.getEmail()).orElseThrow();
