@@ -50,6 +50,10 @@ public class User implements UserDetails {
     @OneToMany(mappedBy="uzytkownik", fetch = FetchType.EAGER)
     private Set<Ogloszenie> ogloszenia = new HashSet<>();;
 
+    
+    /** 
+     * @return Collection<? extends GrantedAuthority>
+     */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));

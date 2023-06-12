@@ -44,7 +44,6 @@ public class AuthenticationService {
 
     @CrossOrigin
     public AuthenticationResponse authenticate(AuthenticatonRequest request) {
-        System.out.println(request);
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
         User user = userRepo.findByEmail(request.getEmail()).orElseThrow();
         if(user == null) {

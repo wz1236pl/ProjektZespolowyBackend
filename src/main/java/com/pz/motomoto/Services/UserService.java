@@ -39,6 +39,11 @@ public class UserService {
     private static final HttpStatusCode HTTP_OK = HttpStatusCode.valueOf(200);
     private static final HttpStatusCode HTTP_BAD = HttpStatusCode.valueOf(400);
 
+    
+    /** 
+     * @param passwordRequest
+     * @return ResponseEntity
+     */
     public <T> ResponseEntity changePassword(EditPasswordRequest passwordRequest) {
         if(Strings.isBlank(passwordRequest.getOldPassword()) || Strings.isBlank(passwordRequest.getNewPassword())){
             return createResponseEntity("Puste hasła!", HTTP_BAD);
@@ -58,6 +63,12 @@ public class UserService {
         return createResponseEntity("Zmieniono hasło użytkownika: ".concat(user.getNick()), HTTP_OK);
     }
 
+    
+    /** 
+     * @param msg
+     * @param httpCode
+     * @return ResponseEntity
+     */
     private <T> ResponseEntity createResponseEntity(String msg, HttpStatusCode httpCode) {
         log.info(msg);
         return new ResponseEntity<T>((T) msg, httpCode);
@@ -65,12 +76,13 @@ public class UserService {
 
     public User getUserFromJwt(HttpServletRequest servletRequest){
         final String authHeader = servletRequest.getHeader("Authorization");
+        System.out.println(authHeader);
         final String jwt = authHeader.substring(7);
+        System.out.println(jwt);
         return userRepo.findByEmail(jwtService.extractUsername(jwt)).orElse(null);
     }
 
     public File generateUserListPdf() throws IOException{
-        // File resultFile = File.createTempFile("UserList",".pdf");
         File resultFile = new File("UserList.pdf");
         ByteArrayOutputStream byteArrayOutputStream = createPDF();
         try(OutputStream outputStream = new FileOutputStream(resultFile)) {
