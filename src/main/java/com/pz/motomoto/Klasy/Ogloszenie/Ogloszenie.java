@@ -5,7 +5,6 @@ import com.pz.motomoto.Klasy.User.User;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
-import java.util.Date;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
