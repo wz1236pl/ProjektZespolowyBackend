@@ -11,7 +11,9 @@ import org.springframework.stereotype.Service;
 import com.pz.motomoto.Klasy.User.User;
 import com.pz.motomoto.Klasy.User.UserRepo;
 import com.pz.motomoto.Requests.EditPasswordRequest;
+import com.pz.motomoto.Security.JwtService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -21,6 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 public class UserService {
     private final UserRepo userRepo;
     private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
 
     private static final HttpStatusCode HTTP_OK = HttpStatusCode.valueOf(200);
     private static final HttpStatusCode HTTP_BAD = HttpStatusCode.valueOf(400);
@@ -47,6 +50,12 @@ public class UserService {
     private <T> ResponseEntity createResponseEntity(String msg, HttpStatusCode httpCode) {
         log.info(msg);
         return new ResponseEntity<T>((T) msg, httpCode);
+    }
+
+    public User getUserFromJwt(HttpServletRequest servletRequest){
+        final String authHeader = servletRequest.getHeader("Authorization");
+        final String jwt = authHeader.substring(7);
+        return userRepo.findByEmail(jwtService.extractUsername(jwt)).orElse(null);
     }
 
 }
