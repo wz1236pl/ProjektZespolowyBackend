@@ -55,12 +55,12 @@ public class UserService {
         if(Objects.isNull(user)){
             return createResponseEntity("Nie znaleziono użytkownika w bazie!", HTTP_BAD);
         }
-        if(!passwordEncoder.matches(passwordRequest.getOldPassword(), user.getPassword())){
+        if(passwordEncoder.matches(passwordRequest.getOldPassword(), user.getPassword())){
             return createResponseEntity("Podane hasło jest niepoprawne!", HTTP_BAD);
         }
         user.setPassword(passwordEncoder.encode(passwordRequest.getNewPassword()));
         userRepo.save(user);
-        return createResponseEntity("Zmieniono hasło użytkownika: "+(user.getNick()), HTTP_OK);
+        return createResponseEntity("Zmieniono hasło użytkownika: ".concat(user.getNick()), HTTP_OK);
     }
 
 
