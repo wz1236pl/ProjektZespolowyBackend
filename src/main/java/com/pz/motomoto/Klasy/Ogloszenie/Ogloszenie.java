@@ -10,10 +10,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 /**
  *
@@ -46,7 +43,6 @@ public class Ogloszenie {
     private double cena;
     private String opis;
     @ManyToOne(fetch = FetchType.EAGER)
-    @JsonIgnoreProperties("ogloszenia") 
     private User uzytkownik;
 
     @Override
